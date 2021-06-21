@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Registration</title>
+
+<link type="text/css" rel="stylesheet" href="/static/css/style.css" >
+<style type="text/css">
+	.login_form{
+		height:420px;
+		margin-top: 25px;
+	}
+	
+</style>
+<script src="/static/script/jquery-1.7.2.js"></script>
+<script>
+	$(function(){
+		
+		$("#sub_btn").click(function(){
+			
+			var username = $("#username").val();
+			
+			var usernameReg = /^[a-zA-Z0-9_-]{3,16}$/;
+			
+			var flag = usernameReg.test(username);
+			if(!flag){
+				alert("Please input 3-16 letters, digits, _ or - as username！");
+				
+				return false;
+			}
+			
+			var password = $("#password").val();
+			
+			var passwordReg = /^[a-zA-Z0-9_-]{6,18}$/;
+			if(!passwordReg.test(password)){
+				alert("Please input 6-18 letters, digits, _ or - as username！")
+				return false;
+			}
+			
+			var repwd = $("#repwd").val();
+			if(repwd == ""){
+				alert("confirm password cannot be empty！");
+				return false;
+			}
+			
+			if(repwd != password){
+				
+				$("#repwd").val("");
+				alert("Two typed passwords do not match");
+				return false;
+			}
+			
+			var email = $("#email").val();
+			
+			var emailReg = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
+			if(!emailReg.test(email)){
+				alert("Email format is not correct");
+				return false;
+			}
+
+		});
+	
+		$("#msg").hide();
+		if("{{.}}"=="Username already exists!"){
+			$("#msg").show();
+		}
+
+		//send Ajax to test username has already exists
+		$("#username").change(function(){
+			
+			var username = $(this).val();
+			
+			var url = "/checkUserName";
+			
+			var param = {"username":username};
+			//sent Ajax request
+			$.post(url,param,function(res){
+				
+				$("#msg").show();
+				
+				$("#msg").html(res);
+			});
+		});
+	});
+</script>
+</head>
+<body>
+		<div id="header">
+			<img class="logo_img" alt="" src="/static/img/bookstore.png" >
+			<div>
+				<a href="/main">Home</a>
+			</div>
+		</div>
+
+			<div class="login_banner">
+			
+				<div id="l_content">
+					<span class="login_word">Welcome</span>
+				</div>
+				
+				<div id="content">
+					<div class="login_form">
+						<div class="login_box">
+							<div class="tit">
+								<h1>Registration</h1>
+								
+								<span class="errorMsg" id="msg">{{.}}</span>
+							</div>
+							<br>
+							<div class="form">
+								<form action="/regist" method="POST">
+									<label>Username：</label>
+									<input class="itxt" type="text" placeholder="Please input username" autocomplete="off" tabindex="1" name="username" id="username" />
+									<br />
+									<br />
+									<label>Password：</label>
+									<input class="itxt" type="password" placeholder="Please input password" autocomplete="off" tabindex="1" name="password" id="password" />
+									<br />
+									<br />
+									<label>Confirm password：</label>
+									<input class="itxt" type="password" placeholder="confirm password" autocomplete="off" tabindex="1" name="repwd" id="repwd" />
+									<br />
+									<br />
+									<label>Email：</label>
+									<input class="itxt" type="text" placeholder="Please input email" autocomplete="off" tabindex="1" name="email" id="email" />
+									<br />
+									<br />
+									<br />
+									<input type="submit" value="Register" id="sub_btn" />
+								</form>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+</body>
+</html>

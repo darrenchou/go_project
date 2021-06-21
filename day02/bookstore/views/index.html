@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Home</title>
+<link type="text/css" rel="stylesheet" href="/static/css/style.css" >
+<script src="/static/script/jquery-1.7.2.js"></script>
+</head>
+<body>
+	
+	<div id="header">
+			<img class="logo_img" alt="" src="/static/img/bookstore.png" >
+			<span class="wel_word">Book Store</span>
+			<div>
+				<a href="pages/user/login.html">Login</a> | 
+				<a href="pages/user/regist.html">Register</a> &nbsp;&nbsp;
+				<a href="/pages/manager/manager.html">Backend Management</a>
+			</div>
+	</div>
+	
+	<div id="main">
+		<div id="book">
+			<div class="book_cond">
+			<form action="/getPageBooksByPrice" method="POST">
+				Price: <input type="text" name="min"> $ - 
+					<input type="text" name="max"> $ <button>Search</button>
+			</form>			
+			</div>
+
+			{{range .Books}}
+			<div class="b_list">
+				<div class="img_div">
+					<img class="book_img" alt="" src="{{.ImgPath}}" />
+				</div>
+				<div class="book_info">
+					<div class="book_name">
+						<span class="sp1">Title:</span>
+						<span class="sp2">{{.Title}}</span>
+					</div>
+					<div class="book_author">
+						<span class="sp1">Author:</span>
+						<span class="sp2">{{.Author}}</span>
+					</div>
+	
+					<div class="book_publisher">
+						<span class="sp1">Publisher:</span>
+						<span class="sp2">{{.Publisher}}</span>
+					</div>
+					<div class="book_rating">
+						<span class="sp1">Rating:</span>
+						<span class="sp2">{{.Rating}}</span>
+					</div>
+					<div class="book_status">
+						<span class="sp1">Book Status:</span>
+						<span class="sp2">{{.Book_status}}</span>
+					</div>
+					<div class="book_price">
+						<span class="sp1">Price:</span>
+						<span class="sp2">$ {{.Price}}</span>
+					</div>
+				</div>
+			</div>
+			{{end}}
+			
+		</div>
+		
+		<div id="page_nav">
+				{{if .IsHasPrev}}
+					<a href="/getPageBooksByPrice?min={{.MinPrice}}&max={{.MaxPrice}}">Home</a>
+					<a href="/getPageBooksByPrice?pageNo={{.GetPrevPageNo}}&min={{.MinPrice}}&max={{.MaxPrice}}">  Prev  </a>
+				{{end}}	
+					Page  {{.PageNo}} of {{ .TotalPageNo}}， Total Records {{.TotalRecord}}
+				{{if .IsHasNext}}	
+					<a href="/getPageBooksByPrice?pageNo={{.GetNextPageNo}}&min={{.MinPrice}}&max={{.MaxPrice}}"> Next  </a>
+					<a href="/getPageBooksByPrice?pageNo={{.TotalPageNo}}&min={{.MinPrice}}&max={{.MaxPrice}}">  Last  </a>
+				{{end}}	
+			</div>
+	
+	</div>
+</body>
+</html>

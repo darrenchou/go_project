@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Book Management</title>
+<link type="text/css" rel="stylesheet" href="/static/css/style.css" >
+<script src="/static/script/jquery-1.7.2.js"></script>
+<script>
+	$(function(){
+		//给删除图书的超链接绑定单击事件
+		$(".deleteBook").click(function(){
+			//get book name
+			var title = $(this).attr("id");
+			// var flag = confirm("确定要删除【"+title+"】这本图书吗？");
+			// if(!flag){
+			// 	//取消默认行为
+			// 	return false;
+			// }
+			return confirm("Are you sure to delete ["+title+"] book？");
+		});
+	});
+</script>
+</head>
+<body>
+	
+	<div id="header">
+			<img class="logo_img" alt="" src="/static/img/bookstore.png" >
+			<span class="wel_word">Book Management System</span>
+			<div>
+				<a href="/getPageBooks">Book Management</a>
+				<a href="/main">Home</a>
+			</div>
+	</div>
+	
+	<div id="main">
+		<table>
+			<tr>
+				<td>Title</td>
+				<td>Author</td>
+				<td>Publisher</td>
+				<td>Publish Date</td>
+				<td>Rating</td>
+				<td>Book Status</td>
+				<td>Price</td>
+				
+				<td colspan="2">Operation</td>
+			</tr>	
+		{{range .Books}}		
+			<tr>
+				<td>{{.Title}}</td>
+				<td>{{.Author}}</td>
+				<td>{{.Publisher}}</td>
+				<td>{{.Publish_date}}</td>
+				<td>{{.Rating}}</td>
+				<td>{{.Book_status}}</td>
+				<td>{{.Price}}</td>
+				
+				<td><a href="/toUpdateBookPage?bookId={{.ID}}">Edit</a></td>
+				<td><a id="{{.Title}}" class="deleteBook" href="/deleteBook?bookId={{.ID}}">Delete</a></td>
+			</tr>	
+		{{end}}
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td><a href="/toUpdateBookPage">Add Book</a></td>
+			</tr>	
+		</table>
+		<div id="page_nav">
+			{{if .IsHasPrev}}
+				<a href="/getPageBooks">  Home  </a>
+				<a href="/getPageBooks?pageNo={{.GetPrevPageNo}}">  Prev  </a>
+			{{end}}	
+				Page  {{.PageNo}} of {{ .TotalPageNo}}， Total Records {{.TotalRecord}}
+			{{if .IsHasNext}}	
+				<a href="/getPageBooks?pageNo={{.GetNextPageNo}}">  Next  </a>
+				<a href="/getPageBooks?pageNo={{.TotalPageNo}}">  Last  </a>
+			{{end}}	
+		</div>
+
+	</div>
+</body>
+</html>

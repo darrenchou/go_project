@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Edit Books</title>
+<link type="text/css" rel="stylesheet" href="/static/css/style.css" >
+<style type="text/css">
+	h1 {
+		text-align: center;
+		margin-top: 200px;
+	}
+	
+	h1 a {
+		color:red;
+	}
+	
+	input {
+		text-align: center;
+	}
+</style>
+</head>
+<body>
+		<div id="header">
+			<img class="logo_img" alt="" src="/static/img/bookstore.png" >
+			<span class="wel_word">Edit Books</span>
+			<div>
+				<a href="/getPageBooks">Book Management</a>
+				<a href="/main">Home</a>
+			</div>
+		</div>
+		
+		<div id="main">
+			<form action="/updateOraddBook" method="POST">
+				<table>
+					<tr>
+						<td>Title</Title></td>
+						<td>Author</td>
+						<td>Publisher</td>
+						<td>Publish Date</td>
+						<td>Rating</td>
+						<td>Book Status</td>
+						<td>Price</td>
+						<td colspan="2">Operation</td>
+					</tr>		
+					<tr>
+					{{if .}}	
+						<input type="hidden" name="bookId" value="{{.ID}}" />
+						<td><input name="title" type="text" value="{{.Title}}"/></td>
+						<td><input name="author" type="text" value="{{.Author}}"/></td>
+						<td><input name="publisher" type="text" value="{{.Publisher}}"></td>
+						<td><input name="publish_date" type="text" value="{{.Publish_date}}"/></td>
+						<td><input name="rating" type="text" value="{{.Rating}}"/></td>
+						<td><input name="book_status" type="text" value="{{.Book_status}}"/></td>
+						<td><input name="price" type="text" value="{{.Price}}"/></td>
+
+
+					{{else}}
+						<td><input name="title" type="text" /></td>
+						<td><input name="author" type="text" /></td>
+						<td><input name="publisher" type="text" /></td>
+						<td><input name="publisher_date" type="text" /></td>
+						<td><input name="rating" type="text" /></td>
+						<td><input name="book_status" type="text" /></td>
+						<td><input name="price" type="text" /></td>
+						
+
+					{{end}}	
+						<td><input type="submit" value="Submit"/></td>
+					</tr>		
+				</table>
+			</form>
+			
+	
+		</div>
+		
+</body>
+</html>
